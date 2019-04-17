@@ -1,6 +1,6 @@
 package app;
 
-public enum Order {
+public enum OrderEnum {
 
     ADDRESS("address"),
     AGENCY_CODE("agency_code"),
@@ -8,7 +8,7 @@ public enum Order {
 
     private String orderType;
 
-    Order(String orderType) {
+    OrderEnum(String orderType) {
         this.orderType = orderType;
     }
 

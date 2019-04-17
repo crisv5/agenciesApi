@@ -3,7 +3,6 @@ package app;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import netscape.javascript.JSObject;
 import spark.Route;
 import spark.*;
 
@@ -12,19 +11,14 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Scanner;
-import java.util.stream.Collectors;
 
 
 public class AgencyController {
 
-   public AgencyController(){ }
 
+ public AgencyController(){ }
 
-
-   public static Route getAgency = (Request request, Response response) -> {
+    public static Route getAgency = (Request request, Response response) -> {
 
        response.type("application/json");
 
@@ -37,7 +31,7 @@ public class AgencyController {
        String sortBy = (request.queryParams("sort")!=null) ? request.queryParams("sort") : "";
 
        Agency[] agencies = null;
-       Order order = Order.DISTANCE;
+       OrderEnum orderEnum = OrderEnum.DISTANCE;
 
 
         String urlString = "https://api.mercadolibre.com/sites/"+site+"/payment_methods/"+payment+
@@ -51,29 +45,28 @@ public class AgencyController {
             agencies = new Gson().fromJson(jsonObject.get("results"), Agency[].class);
 
         } catch (IOException e) {
-           System.out.println("Ocurrió un error al traer los sites");
+           System.out.println("Ocurrió un error");
            e.printStackTrace();
        }
 
+
        switch(sortBy){
            case "address":
-               order = Order.ADDRESS;
+               orderEnum = OrderEnum.ADDRESS;
                break;
            case "agency_code":
-               order = Order.AGENCY_CODE;
+               orderEnum = OrderEnum.AGENCY_CODE;
                break;
            case "distance":
-               order = Order.DISTANCE;
+               orderEnum = OrderEnum.DISTANCE;
                break;
         }
 
        for(Agency a : agencies){
-           a.setOrder(order);
+           a.setOrderEnum(orderEnum);
        }
 
        Sort.sortBy(agencies);
-
-
 
 
        return new Gson().toJson(new StandardResponse(StatusResponse.SUCCESS,

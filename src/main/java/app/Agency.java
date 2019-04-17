@@ -13,7 +13,7 @@ public class Agency implements Comparable<Agency>{
     private String site_id;
     private String terminal;
     private Address address;
-    private Order order;
+    private OrderEnum orderEnum;
 
     public Agency() {
     }
@@ -121,19 +121,19 @@ public class Agency implements Comparable<Agency>{
         this.terminal = terminal;
     }
 
-    public Order getOrder() {
-        return order;
+    public OrderEnum getOrderEnum() {
+        return orderEnum;
     }
 
-    public void setOrder(Order order) {
-        this.order = order;
+    public void setOrderEnum(OrderEnum orderEnum) {
+        this.orderEnum = orderEnum;
     }
 
     @Override
     public int compareTo(Agency o) {
 
         System.out.println();
-        switch (this.order){
+        switch (this.orderEnum){
             case ADDRESS:
                 return address.getAddress_line().compareTo(o.getAddress().getAddress_line());
 
